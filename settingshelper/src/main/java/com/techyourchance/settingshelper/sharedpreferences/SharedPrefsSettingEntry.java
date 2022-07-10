@@ -14,17 +14,14 @@ import com.techyourchance.settingshelper.SettingEntry;
     private final Object LOCK = new Object();
 
     /* pp */ final SharedPreferences preferences;
-    /* pp */ final SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder;
 
     /* pp */ SharedPrefsSettingEntry(
             SharedPreferences preferences,
-            SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder,
             String key,
             T defaultValue
     ) {
         super(key, defaultValue);
         this.preferences = preferences;
-        this.sharedPrefsSettingEntriesHolder = sharedPrefsSettingEntriesHolder;
     }
 
     @SuppressLint("ApplySharedPref")
@@ -37,7 +34,6 @@ import com.techyourchance.settingshelper.SettingEntry;
     @Override
     protected void onFirstListenerRegistered() {
         synchronized (LOCK) {
-            sharedPrefsSettingEntriesHolder.holdReference(this);
             preferences.registerOnSharedPreferenceChangeListener(this);
         }
     }
@@ -46,7 +42,6 @@ import com.techyourchance.settingshelper.SettingEntry;
     protected void onLastListenerUnregistered() {
         synchronized (LOCK) {
             preferences.unregisterOnSharedPreferenceChangeListener(this);
-            sharedPrefsSettingEntriesHolder.releaseReference(this);
         }
     }
 

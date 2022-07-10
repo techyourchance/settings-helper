@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class represents a single application setting entry. The specifics about how exactly this
+ * This class represents a single setting data entry. The specifics about how exactly this
  * setting entry is implemented and persisted should be implemented by sub-classes.
  * @param <T> data type of this setting entry
  */

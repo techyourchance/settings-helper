@@ -5,6 +5,11 @@ import androidx.annotation.NonNull;
 
 public interface SettingEntryListener<T> {
 
-    void onValueChanged(@NonNull SettingEntry<T> settingDataEntry, @NonNull T value);
+    /**
+     * Called when the value of a {@link SettingEntry} changes
+     * @param settingEntry the changed {@link SettingEntry}
+     * @param value new value
+     */
+    void onValueChanged(@NonNull SettingEntry<T> settingEntry, @NonNull T value);
 
 }

@@ -12,11 +12,10 @@ import android.content.SharedPreferences;
 
     /* pp */ SharedPrefsFloatEntry(
             SharedPreferences preferences,
-            SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder,
             String key,
             Float defaultValue
     ) {
-        super(preferences, sharedPrefsSettingEntriesHolder, key, defaultValue);
+        super(preferences, key, defaultValue);
     }
 
     @Override

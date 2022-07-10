@@ -12,11 +12,10 @@ import android.content.SharedPreferences;
 
     /* pp */ SharedPrefsIntegerEntry(
             SharedPreferences preferences,
-            SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder,
             String key,
             Integer defaultValue
     ) {
-        super(preferences, sharedPrefsSettingEntriesHolder, key, defaultValue);
+        super(preferences, key, defaultValue);
     }
     @Override
     public Integer getValue() {

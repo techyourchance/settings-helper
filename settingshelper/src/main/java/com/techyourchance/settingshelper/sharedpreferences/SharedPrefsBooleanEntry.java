@@ -11,11 +11,10 @@ import android.content.SharedPreferences;
 
     /* pp */ SharedPrefsBooleanEntry(
             SharedPreferences preferences,
-            SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder,
             String key,
             Boolean defaultValue
     ) {
-        super(preferences, sharedPrefsSettingEntriesHolder, key, defaultValue);
+        super(preferences, key, defaultValue);
     }
 
     @Override
