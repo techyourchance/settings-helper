@@ -10,14 +10,14 @@ import java.util.Set;
  * setting entry is implemented and persisted should be implemented by sub-classes.
  * @param <T> data type of this setting entry
  */
-public abstract class SettingDataEntry<T> {
+public abstract class SettingEntry<T> {
 
-    private final Set<SettingDataEntryChangeListener<T>> listeners = new HashSet<>();
+    private final Set<SettingEntryListener<T>> listeners = new HashSet<>();
 
     protected final String key;
     protected final T defaultValue;
 
-    public SettingDataEntry(String key, T defaultValue) {
+    public SettingEntry(String key, T defaultValue) {
         this.key = key;
         this.defaultValue = defaultValue;
     }
@@ -26,7 +26,7 @@ public abstract class SettingDataEntry<T> {
     public abstract void setValue(T value);
     public abstract void remove();
 
-    public final void registerListener(SettingDataEntryChangeListener<T> listener){
+    public final void registerListener(SettingEntryListener<T> listener){
         synchronized (listeners) {
             boolean modified = listeners.add(listener);
             if (modified && listeners.size() == 1) {
@@ -35,7 +35,7 @@ public abstract class SettingDataEntry<T> {
         }
     }
 
-    public final void unregisterListener(SettingDataEntryChangeListener<T> listener){
+    public final void unregisterListener(SettingEntryListener<T> listener){
         synchronized (listeners) {
             boolean modified = listeners.remove(listener);
             if (modified && listeners.isEmpty()) {
@@ -45,24 +45,24 @@ public abstract class SettingDataEntry<T> {
     }
 
     /**
-     * This "hook" method can be overridden if any actions need to be performed when first listener
-     * being registered
+     * This method can be overridden if any actions need to be performed after the first
+     * listener is registered
      */
     protected void onFirstListenerRegistered() {}
 
     /**
-     * This "hook" method can be overridden if any actions need to be performed when last listener
-     * being unregistered
+     * This method can be overridden if any actions need to be performed after the last
+     * listener is unregistered
      */
     protected void onLastListenerUnregistered() {}
 
     protected void notifyListeners(String key, T value){
-        final List<SettingDataEntryChangeListener<T>> listenersCopy;
+        final List<SettingEntryListener<T>> listenersCopy;
         synchronized (listeners) {
             listenersCopy = new ArrayList<>(listeners);
         }
 
-        for (SettingDataEntryChangeListener<T> listener : listenersCopy){
+        for (SettingEntryListener<T> listener : listenersCopy){
             listener.onValueChanged(this, value);
         }
     }

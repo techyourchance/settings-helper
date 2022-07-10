@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 /**
- * Implementation of {@link SharedPrefsDataEntry} for long
+ * Implementation of {@link SharedPrefsSettingEntry} for long
  */
 @SuppressWarnings("unused")
-/* pp */ class SharedPrefsLongEntry extends SharedPrefsDataEntry<Long> {
+/* pp */ class SharedPrefsLongEntry extends SharedPrefsSettingEntry<Long> {
 
     /* pp */ SharedPrefsLongEntry(
             SharedPreferences preferences,

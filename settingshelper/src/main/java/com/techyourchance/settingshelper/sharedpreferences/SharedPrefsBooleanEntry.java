@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 /**
- * Implementation of {@link SharedPrefsDataEntry} for boolean
+ * Implementation of {@link SharedPrefsSettingEntry} for boolean
  */
 @SuppressWarnings("unused")
-/* pp */ class SharedPrefsBooleanEntry extends SharedPrefsDataEntry<Boolean> {
+/* pp */ class SharedPrefsBooleanEntry extends SharedPrefsSettingEntry<Boolean> {
 
     /* pp */ SharedPrefsBooleanEntry(
             SharedPreferences preferences,

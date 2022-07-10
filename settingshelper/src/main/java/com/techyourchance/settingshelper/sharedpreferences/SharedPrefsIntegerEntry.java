@@ -5,10 +5,10 @@ import android.content.SharedPreferences;
 
 
 /**
- * Implementation of {@link SharedPrefsDataEntry} for integer
+ * Implementation of {@link SharedPrefsSettingEntry} for integer
  */
 @SuppressWarnings("unused")
-/* pp */ class SharedPrefsIntegerEntry extends SharedPrefsDataEntry<Integer> {
+/* pp */ class SharedPrefsIntegerEntry extends SharedPrefsSettingEntry<Integer> {
 
     /* pp */ SharedPrefsIntegerEntry(
             SharedPreferences preferences,

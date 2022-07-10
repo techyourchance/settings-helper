@@ -4,10 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
 /**
- * Implementation of {@link SharedPrefsDataEntry} for double
+ * Implementation of {@link SharedPrefsSettingEntry} for double
  */
 @SuppressWarnings("unused")
-/* pp */ class SharedPrefsDoubleEntry extends SharedPrefsDataEntry<Double> {
+/* pp */ class SharedPrefsDoubleEntry extends SharedPrefsSettingEntry<Double> {
 
     /* pp */ SharedPrefsDoubleEntry(
             SharedPreferences preferences,

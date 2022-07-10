@@ -3,13 +3,12 @@ package com.techyourchance.settingshelper.sharedpreferences;
 import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 
-import com.techyourchance.settingshelper.SettingDataEntry;
-import com.techyourchance.settingshelper.sharedpreferences.SharedPrefsSettingEntriesHolder;
+import com.techyourchance.settingshelper.SettingEntry;
 
 /**
- * Implementation of {@link SettingDataEntry} backed by {@link SharedPreferences}
+ * Implementation of {@link SettingEntry} backed by {@link SharedPreferences}
  */
-/* pp */ abstract class SharedPrefsDataEntry<T> extends SettingDataEntry<T> implements
+/* pp */ abstract class SharedPrefsSettingEntry<T> extends SettingEntry<T> implements
         SharedPreferences.OnSharedPreferenceChangeListener {
 
     private final Object LOCK = new Object();
@@ -17,7 +16,7 @@ import com.techyourchance.settingshelper.sharedpreferences.SharedPrefsSettingEnt
     /* pp */ final SharedPreferences preferences;
     /* pp */ final SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder;
 
-    /* pp */ SharedPrefsDataEntry(
+    /* pp */ SharedPrefsSettingEntry(
             SharedPreferences preferences,
             SharedPrefsSettingEntriesHolder sharedPrefsSettingEntriesHolder,
             String key,
@@ -28,7 +27,7 @@ import com.techyourchance.settingshelper.sharedpreferences.SharedPrefsSettingEnt
         this.sharedPrefsSettingEntriesHolder = sharedPrefsSettingEntriesHolder;
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("ApplySharedPref")
     @Override
     public void remove() {
         preferences.edit().remove(key).commit();
