@@ -12,7 +12,7 @@ import java.util.Map;
  */
 public abstract class SettingEntriesFactory {
 
-     private final Object STATIC_LOCK = new Object();
+     private final Object LOCK = new Object();
      private final Map<String, SettingEntry<?>> settingEntries = new HashMap<>();
 
      /**
@@ -26,7 +26,7 @@ public abstract class SettingEntriesFactory {
       */
      @SuppressWarnings("unchecked")
      public final <T> SettingEntry<T> getSettingEntry(final Class<T> clazz, final String key, final T defaultValue) {
-          synchronized (STATIC_LOCK) {
+          synchronized (LOCK) {
                SettingEntry<T> settingEntry;
                if (settingEntries.containsKey(key)) {
                     settingEntry = (SettingEntry<T>) settingEntries.get(key);

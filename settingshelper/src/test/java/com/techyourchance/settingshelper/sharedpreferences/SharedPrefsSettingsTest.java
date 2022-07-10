@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.techyourchance.settingshelper.SettingEntry;
+import com.techyourchance.settingshelper.SettingEntryListener;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
@@ -26,10 +29,12 @@ import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
@@ -64,6 +69,8 @@ public class SharedPrefsSettingsTest {
     private SettingEntry<Double> doubleSettingEntry;
     private SettingEntry<Float> floatSettingEntry;
 
+    @Mock SettingEntryListener<Integer> intListener1;
+    @Mock SettingEntryListener<Integer> intListener2;
 
     @Before
     public void setup() throws Exception {
@@ -71,24 +78,26 @@ public class SharedPrefsSettingsTest {
                 RuntimeEnvironment.getApplication().getSharedPreferences("prefs", Context.MODE_PRIVATE);
         SUT = new SharedPrefsSettingEntriesFactory(sharedPreferences);
 
-        booleanSettingEntry = SUT.newSettingEntry(
+        booleanSettingEntry = SUT.getSettingEntry(
                 Boolean.class, KEY_BOOLEAN_SETTING_ENTRY, DEFAULT_BOOLEAN_SETTING_ENTRY
         );
-        stringSettingEntry = SUT.newSettingEntry(
+        stringSettingEntry = SUT.getSettingEntry(
                 String.class, KEY_STRING_SETTING_ENTRY, DEFAULT_STRING_SETTING_ENTRY
         );
-        intSettingEntry = SUT.newSettingEntry(
+        intSettingEntry = SUT.getSettingEntry(
                 Integer.class, KEY_INT_SETTING_ENTRY, DEFAULT_INT_SETTING_ENTRY
         );
-        longSettingEntry = SUT.newSettingEntry(
+        longSettingEntry = SUT.getSettingEntry(
                 Long.class, KEY_LONG_SETTING_ENTRY, DEFAULT_LONG_SETTING_ENTRY
         );
-        doubleSettingEntry = SUT.newSettingEntry(
+        doubleSettingEntry = SUT.getSettingEntry(
                 Double.class, KEY_DOUBLE_SETTING_ENTRY, DEFAULT_DOUBLE_SETTING_ENTRY
         );
-        floatSettingEntry = SUT.newSettingEntry(
+        floatSettingEntry = SUT.getSettingEntry(
                 Float.class, KEY_FLOAT_SETTING_ENTRY, DEFAULT_FLOAT_SETTING_ENTRY
         );
+
+        MockitoAnnotations.openMocks(this);
     }
 
     @Test
@@ -203,6 +212,43 @@ public class SharedPrefsSettingsTest {
         float result = floatSettingEntry.getValue();
         // Assert
         assertThat(result, is(5.0f));
+    }
+
+    @Test
+    public void setValue_listenersNotified() throws Exception {
+        // Arrange
+        intSettingEntry.registerListener(intListener1);
+        intSettingEntry.registerListener(intListener2);
+        // Act
+        intSettingEntry.setValue(10);
+        // Assert
+        verify(intListener1).onValueChanged(intSettingEntry, 10);
+        verify(intListener2).onValueChanged(intSettingEntry, 10);
+    }
+
+    @Test
+    public void setValue_listenerUnregistered_listenersNotNotified() throws Exception {
+        // Arrange
+        intSettingEntry.registerListener(intListener1);
+        intSettingEntry.registerListener(intListener2);
+        // Act
+        intSettingEntry.unregisterListener(intListener1);
+        intSettingEntry.unregisterListener(intListener2);
+        intSettingEntry.setValue(10);
+        // Assert
+        verifyNoMoreInteractions(intListener1);
+        verifyNoMoreInteractions(intListener2);
+    }
+
+    @Test
+    public void sharedPrefsSettingEntriesFactory_cachesSettingEntriesInternally() throws Exception {
+        // Arrange
+        // Act
+        SettingEntry<Integer> intSettingEntryNew = SUT.getSettingEntry(
+                Integer.class, KEY_INT_SETTING_ENTRY, DEFAULT_INT_SETTING_ENTRY
+        );
+        // Assert
+        assertEquals(intSettingEntryNew, intSettingEntry);
     }
 
     // region helper methods -----------------------------------------------------------------------
