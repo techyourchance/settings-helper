@@ -2,14 +2,7 @@ package com.techyourchance.settingshelper.sharedpreferences;
 
 import android.content.SharedPreferences;
 
-import com.techyourchance.settingshelper.SettingEntry;
 import com.techyourchance.settingshelper.SettingEntriesFactory;
-
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.CopyOnWriteArraySet;
 
 import androidx.annotation.Nullable;
 
@@ -23,7 +16,7 @@ public class SharedPrefsSettingEntriesFactory extends SettingEntriesFactory {
 
     @SuppressWarnings("unchecked")
     @Override
-    protected  <T> SharedPrefsSettingEntry<T> newSettingEntry(Class<T> clazz, String key, @Nullable T defaultValue){
+    protected <T> SharedPrefsSettingEntry<T> newSettingEntry(Class<T> clazz, String key, @Nullable T defaultValue){
         if (clazz == Boolean.class) return (SharedPrefsSettingEntry<T>) new SharedPrefsBooleanEntry(sharedPreferences, key, (Boolean) defaultValue);
         if (clazz == String.class) return (SharedPrefsSettingEntry<T>) new SharedPrefsStringEntry(sharedPreferences, key, (String) defaultValue);
         if (clazz == Integer.class) return (SharedPrefsSettingEntry<T>) new SharedPrefsIntegerEntry(sharedPreferences, key, (Integer) defaultValue);

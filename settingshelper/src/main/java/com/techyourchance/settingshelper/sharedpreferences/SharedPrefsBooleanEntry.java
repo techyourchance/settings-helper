@@ -22,7 +22,7 @@ import android.content.SharedPreferences;
         return preferences.getBoolean(key, defaultValue == null ? false : defaultValue);
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("ApplySharedPref")
     @Override
     public void setValue(Boolean value) {
         preferences.edit().putBoolean(key, value == null ? false : value).commit();
