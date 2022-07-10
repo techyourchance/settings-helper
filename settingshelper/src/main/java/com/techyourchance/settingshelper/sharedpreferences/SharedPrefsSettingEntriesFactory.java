@@ -17,7 +17,6 @@ public class SharedPrefsSettingEntriesFactory extends SettingEntriesFactory {
 
     private final SharedPreferences sharedPreferences;
 
-
     public SharedPrefsSettingEntriesFactory(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;
     }

@@ -23,7 +23,7 @@ import android.content.SharedPreferences;
         return preferences.getFloat(key, defaultValue == null ? 0f : defaultValue);
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("ApplySharedPref")
     @Override
     public void setValue(Float value) {
         preferences.edit().putFloat(key, value == null ? 0 : value).commit();

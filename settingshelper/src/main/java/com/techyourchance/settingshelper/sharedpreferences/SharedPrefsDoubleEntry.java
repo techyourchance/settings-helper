@@ -23,7 +23,7 @@ import android.content.SharedPreferences;
         return Double.longBitsToDouble(preferences.getLong(key, Double.doubleToLongBits(defValD)));
     }
 
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint("ApplySharedPref")
     @Override
     public void setValue(Double value) {
         final double valD = value == null ? 0 : value;
