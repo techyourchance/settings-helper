@@ -13,10 +13,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import androidx.annotation.Nullable;
 
-public class SharedPrefsSettingEntriesFactory implements SettingEntriesFactory {
-
-    private final Object STATIC_LOCK = new Object();
-    private final Map<String, SharedPrefsSettingEntry<?>> settingEntries = new HashMap<>();
+public class SharedPrefsSettingEntriesFactory extends SettingEntriesFactory {
 
     private final SharedPreferences sharedPreferences;
 
@@ -27,21 +24,7 @@ public class SharedPrefsSettingEntriesFactory implements SettingEntriesFactory {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T> SettingEntry<T> getSettingEntry(Class<T> clazz, String key, @Nullable T defaultValue){
-        synchronized (STATIC_LOCK) {
-            SharedPrefsSettingEntry<T> settingEntry;
-            if (settingEntries.containsKey(key)) {
-                settingEntry = (SharedPrefsSettingEntry<T>) settingEntries.get(key);
-            } else {
-                settingEntry = newSettingEntry(clazz, key, defaultValue);
-                settingEntries.put(key, settingEntry);
-            }
-            return settingEntry;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> SharedPrefsSettingEntry<T> newSettingEntry(Class<T> clazz, String key, @Nullable T defaultValue){
+    protected  <T> SharedPrefsSettingEntry<T> newSettingEntry(Class<T> clazz, String key, @Nullable T defaultValue){
         if (clazz == Boolean.class) return (SharedPrefsSettingEntry<T>) new SharedPrefsBooleanEntry(sharedPreferences, key, (Boolean) defaultValue);
         if (clazz == String.class) return (SharedPrefsSettingEntry<T>) new SharedPrefsStringEntry(sharedPreferences, key, (String) defaultValue);
         if (clazz == Integer.class) return (SharedPrefsSettingEntry<T>) new SharedPrefsIntegerEntry(sharedPreferences, key, (Integer) defaultValue);
